@@ -10,7 +10,7 @@ internal class Startup
 {
     static void Main(string[] args)
     {
-        StudentsSystemContext context = new StudentsSystemContext();
+        StudentSystemContext context = new StudentSystemContext();
 
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();

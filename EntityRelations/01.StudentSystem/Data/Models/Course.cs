@@ -12,6 +12,8 @@ namespace P01_StudentSystem.Data.Models
         public Course()
         {
             StudentsCourses = new HashSet<StudentCourse>();
+            Homeworks = new HashSet<Homework>();
+            Resources = new HashSet<Resource>();
         }
         
         [Key]
@@ -31,5 +33,7 @@ namespace P01_StudentSystem.Data.Models
         public decimal Price { get; set; }
 
         public ICollection<StudentCourse> StudentsCourses { get; set; }
+        public ICollection<Homework> Homeworks { get; set; }
+        public ICollection<Resource> Resources { get; set; }
     }
 }

@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.StudentSystem", "01.StudentSystem\01.StudentSystem.csproj", "{0FD63873-D7BB-4C51-B5AE-8F4C1236C201}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01.StudentSystem", "01.StudentSystem\01.StudentSystem.csproj", "{0FD63873-D7BB-4C51-B5AE-8F4C1236C201}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.FootballBetting", "02.FootballBetting\02.FootballBetting.csproj", "{853F3494-06C2-4F72-B47D-AEA1A19EFF87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P02_FootballBetting.Data", "P02_FootballBetting.Data\P02_FootballBetting.Data.csproj", "{BCE5BBB1-2A9A-41A3-BCB7-E7B1B5E0BB15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P02_FootballBetting.Data.Models", "P02_FootballBetting.Data.Models\P02_FootballBetting.Data.Models.csproj", "{A4D59647-ADB8-4E52-968D-66AF07FAB314}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{0FD63873-D7BB-4C51-B5AE-8F4C1236C201}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FD63873-D7BB-4C51-B5AE-8F4C1236C201}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FD63873-D7BB-4C51-B5AE-8F4C1236C201}.Release|Any CPU.Build.0 = Release|Any CPU
+		{853F3494-06C2-4F72-B47D-AEA1A19EFF87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{853F3494-06C2-4F72-B47D-AEA1A19EFF87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{853F3494-06C2-4F72-B47D-AEA1A19EFF87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{853F3494-06C2-4F72-B47D-AEA1A19EFF87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCE5BBB1-2A9A-41A3-BCB7-E7B1B5E0BB15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCE5BBB1-2A9A-41A3-BCB7-E7B1B5E0BB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCE5BBB1-2A9A-41A3-BCB7-E7B1B5E0BB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCE5BBB1-2A9A-41A3-BCB7-E7B1B5E0BB15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4D59647-ADB8-4E52-968D-66AF07FAB314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4D59647-ADB8-4E52-968D-66AF07FAB314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4D59647-ADB8-4E52-968D-66AF07FAB314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4D59647-ADB8-4E52-968D-66AF07FAB314}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
