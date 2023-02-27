@@ -13,6 +13,7 @@ namespace SoftUni.Models
             Departments = new HashSet<Department>();
             InverseManager = new HashSet<Employee>();
             Projects = new HashSet<Project>();
+            EmployeesProjects = new HashSet<EmployeeProject>();
         }
 
         [Key]
@@ -59,5 +60,7 @@ namespace SoftUni.Models
         [ForeignKey("EmployeeId")]
         [InverseProperty(nameof(Project.Employees))]
         public virtual ICollection<Project> Projects { get; set; }
+
+        public virtual ICollection<EmployeeProject> EmployeesProjects { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace SoftUni.Models
         public Project()
         {
             Employees = new HashSet<Employee>();
+            EmployeesProjects = new HashSet<EmployeeProject>();
         }
 
         [Key]
@@ -29,5 +30,7 @@ namespace SoftUni.Models
         [ForeignKey("ProjectID")]
         [InverseProperty(nameof(Employee.Projects))]
         public virtual ICollection<Employee> Employees { get; set; }
+
+        public virtual ICollection<EmployeeProject> EmployeesProjects { get; set; }
     }
 }

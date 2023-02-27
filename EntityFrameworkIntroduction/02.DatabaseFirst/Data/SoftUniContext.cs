@@ -22,6 +22,7 @@ namespace SoftUni.Data
         public virtual DbSet<Employee> Employees { get; set; } = null!;
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<Town> Towns { get; set; } = null!;
+        public virtual DbSet<EmployeeProject> EmployeesProjects { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -68,23 +69,46 @@ namespace SoftUni.Data
                     .HasForeignKey(d => d.ManagerId)
                     .HasConstraintName("FK_Employees_Employees");
 
-                entity.HasMany(d => d.Projects)
-                    .WithMany(p => p.Employees)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "EmployeeProject",
-                        l => l.HasOne<Project>().WithMany().HasForeignKey("ProjectId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_EmployeesProjects_Projects"),
-                        r => r.HasOne<Employee>().WithMany().HasForeignKey("EmployeeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_EmployeesProjects_Employees"),
-                        j =>
-                        {
-                            j.HasKey("EmployeeId", "ProjectId");
+                //entity.HasMany(d => d.Projects)
+                //    .WithMany(p => p.Employees)
+                //    .UsingEntity<Dictionary<string, object>>(
+                //        "EmployeeProject",
+                //        l => l.HasOne<Project>().WithMany().HasForeignKey("ProjectId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_EmployeesProjects_Projects"),
+                //        r => r.HasOne<Employee>().WithMany().HasForeignKey("EmployeeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_EmployeesProjects_Employees"),
+                //        j =>
+                //        {
+                //            j.HasKey("EmployeeId", "ProjectId");
 
-                            j.ToTable("EmployeesProjects");
+                //            j.ToTable("EmployeesProjects");
 
-                            j.IndexerProperty<int>("EmployeeId").HasColumnName("EmployeeID");
+                //            j.IndexerProperty<int>("EmployeeId").HasColumnName("EmployeeID");
 
-                            j.IndexerProperty<int>("ProjectId").HasColumnName("ProjectID");
-                        });
+                //            j.IndexerProperty<int>("ProjectId").HasColumnName("ProjectID");
+                //        });
+
+                
             });
+
+            modelBuilder.Entity<EmployeeProject>(entity =>
+
+            {
+                entity.HasKey(pk => new { pk.EmployeeId, pk.ProjectId });
+
+                entity.HasOne(ep => ep.Employee)
+                .WithMany(e => e.EmployeesProjects)
+                .HasForeignKey(ep => ep.EmployeeId);
+
+                entity.HasOne(ep => ep.Project)
+                .WithMany(p => p.EmployeesProjects)
+                .HasForeignKey(ep => ep.ProjectId);
+
+            });
+
+
+
+
+
+
 
             OnModelCreatingPartial(modelBuilder);
         }

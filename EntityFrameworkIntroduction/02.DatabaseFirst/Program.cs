@@ -18,14 +18,14 @@ public class StartUp
             //Console.WriteLine(GetEmployeesWithSalaryOver50000(context));
             //Console.WriteLine(GetEmployeesFromResearchAndDevelopment(context));
             //Console.WriteLine(AddNewAddressToEmployee(context));
-            Console.WriteLine(GetEmployeesInPeriod(context));  //------------ incomplete
+            //Console.WriteLine(GetEmployeesInPeriod(context)); 
             //Console.WriteLine(GetAddressesByTown(context));
-            //Console.WriteLine(GetEmployee147(context)); //------------- incomplete
+            //Console.WriteLine(GetEmployee147(context)); 
             //Console.WriteLine(GetDepartmentsWithMoreThan5Employees(context));
             //Console.WriteLine(GetLatestProjects(context));
             //Console.WriteLine(IncreaseSalaries(context));
             //Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(context));
-            //Console.WriteLine(DeleteProjectById(context)); //------------incomplete
+            Console.WriteLine(DeleteProjectById(context)); 
             //Console.WriteLine(RemoveTown(context));
         }
     }
@@ -120,12 +120,18 @@ public class StartUp
     public static string GetEmployeesInPeriod(SoftUniContext context)
     {
         var employees = context.Employees
-            .Where(e => e.Projects.Any(p => p.StartDate.Year >= 2001 && p.StartDate.Year <= 2003))
             .Select(e => new
             {
                 Name = $"{e.FirstName} {e.LastName}",
                 Manager = $"{e.Manager.FirstName} {e.Manager.LastName}",
-                Projects = e.Projects
+                Projects = e.EmployeesProjects
+                .Where(ep=>ep.Project.StartDate.Year >= 2001 && ep.Project.StartDate.Year <= 2003)
+                .Select(ep=>new
+                {
+                    Name = ep.Project.Name,
+                    StartDate = ep.Project.StartDate,
+                    EndDate = ep.Project.EndDate
+                })
             });
 
         StringBuilder str = new StringBuilder();
@@ -133,7 +139,7 @@ public class StartUp
         foreach(var e in employees)
         {
             str.AppendLine($"{e.Name} - Manager: {e.Manager}");
-            foreach(Project p in e.Projects)
+            foreach(var p in e.Projects)
             {
                 string start = p.StartDate.ToString("M/d/yyyy h:mm:ss tt");
                 string finish = "not finished";
@@ -178,14 +184,19 @@ public class StartUp
 
         var employee147 = context.Employees
             .Where(e => e.EmployeeId == 147)
-            .Select(e => new { FirstName = e.FirstName, LastName = e.LastName, JobTitle = e.JobTitle, Projects = e.Projects })
+            .Select(e => new {  FirstName = e.FirstName, 
+                                LastName = e.LastName, 
+                                JobTitle = e.JobTitle, 
+                                Projects = e.EmployeesProjects
+                                    .Select(ep=>new {
+                                                        Name = ep.Project.Name}) })
             .FirstOrDefault();
 
         StringBuilder str = new StringBuilder();
 
 
         str.AppendLine($"{employee147.FirstName} {employee147.LastName} - {employee147.JobTitle}");
-        foreach(Project project in employee147.Projects.OrderBy(p=>p.Name))
+        foreach(var project in employee147.Projects.OrderBy(p=>p.Name))
         {
             str.AppendLine(project.Name);
         }
@@ -283,13 +294,13 @@ public class StartUp
     public static string DeleteProjectById(SoftUniContext context)
     {
         List<Employee> employees = context.Employees
-            .Where(e => e.Projects.Select(p => p.ProjectId).Contains(2))
+            .Where(e => e.EmployeesProjects.Any(ep=>ep.ProjectId == 2))
             .ToList();
 
         foreach(Employee employee in employees)
         {
-            employee.Projects = employee.Projects
-                .Where(p => p.ProjectId != 2)
+            employee.EmployeesProjects = employee.EmployeesProjects
+                .Where(ep => ep.ProjectId != 2)
                 .ToList();
         }
 
