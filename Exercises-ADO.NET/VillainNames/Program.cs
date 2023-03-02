@@ -17,7 +17,9 @@ namespace VillainNames
                 //await GetVillainsWithMinionCount(con);
                 //await GetMinionsByVillainId(con);
                 //await AddMinion(con);
-                await ChangeTownNamesCasing(con); 
+                //await ChangeTownNamesCasing(con); 
+                //await RemoveVillain(con);
+                await PrintAllMinionNames(con);
 
                 
 
@@ -193,6 +195,66 @@ namespace VillainNames
             Console.WriteLine($"[{string.Join(",",towns)}]");
         }
 
+        public async static Task RemoveVillain(SqlConnection con)
+        {
+            SqlTransaction transaction = con.BeginTransaction();
 
+            int villainId = int.Parse(Console.ReadLine());
+
+
+
+            SqlCommand getName = new SqlCommand(SQLQueries.FindVillainById,con, transaction);
+            getName.Parameters.AddWithValue("@villainId", villainId);
+            SqlDataReader villainNameReader = await getName.ExecuteReaderAsync();
+            
+            if(!villainNameReader.Read())
+            {
+                Console.WriteLine("No such villain was found.");
+                return;
+            }
+            else
+            {
+                string villainName = (string)villainNameReader["Name"];
+                Console.WriteLine($"{villainName} was deleted");
+            }
+            await villainNameReader.CloseAsync();
+
+            SqlCommand getCount = new SqlCommand(SQLQueries.FindMinionCountByVillainId,con, transaction);
+            getCount.Parameters.AddWithValue("@villainId", villainId);
+            int count = (int)await getCount.ExecuteScalarAsync();
+            Console.WriteLine($"{count} minions were released.");
+
+
+            SqlCommand releaseMinions = new SqlCommand(SQLQueries.ReleaseMinionsById, con, transaction);
+            releaseMinions.Parameters.AddWithValue("@villainId", villainId);
+            await releaseMinions.ExecuteNonQueryAsync();
+
+            SqlCommand deleteVillain = new SqlCommand(SQLQueries.DeleteVillainById, con, transaction);
+            deleteVillain.Parameters.AddWithValue("@villainId", villainId);
+            await deleteVillain.ExecuteScalarAsync();
+
+            transaction.Commit();
+
+
+
+        }
+
+        //TODO
+        public async static Task PrintAllMinionNames(SqlConnection con)
+        {
+            List<string> minionNames = new List<string>();
+
+            SqlCommand getAllMinionNames = new SqlCommand(SQLQueries.GetAllMinionNames, con);
+
+            SqlDataReader reader = await getAllMinionNames.ExecuteReaderAsync();
+
+            while(reader.Read())
+            {
+                minionNames.Add((string)reader["Name"]);
+            }
+            await reader.CloseAsync();
+
+            Console.WriteLine(String.Join(Environment.NewLine,minionNames));
+        }
     }
 }

@@ -112,6 +112,31 @@ namespace VillainNames
                 VALUES
                 (@minionId, @villainId)";
 
-            
+        public static string FindVillainById =
+            @"SELECT 
+                Name
+                FROM Villains 
+                WHERE Id = @villainId";
+
+        public static string FindMinionCountByVillainId =
+            @"SELECT 
+                COUNT(*)
+                FROM Villains AS v
+				JOIN MinionsVillains AS mv ON v.Id = mv.VillainId
+                WHERE v.Id = @villainId";
+
+        public static string DeleteVillainById =
+            @"DELETE
+                FROM Villains
+                WHERE Id = @villainId";
+
+        public static string ReleaseMinionsById =
+            @"DELETE FROM MinionsVillains                
+                WHERE VillainId = @villainId";
+
+        public static string GetAllMinionNames =
+            @"SELECT Name FROM Minions";
+
+
     }
 }
