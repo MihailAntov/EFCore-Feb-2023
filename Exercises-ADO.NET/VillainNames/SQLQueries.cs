@@ -137,6 +137,26 @@ namespace VillainNames
         public static string GetAllMinionNames =
             @"SELECT Name FROM Minions";
 
+        public static string IncreaseAgeAndLowerCaseName =
+            @"UPDATE Minions
+	SET Name = LOWER(SUBSTRING(Name,1,1))+SUBSTRING(Name,2,LEN(Name)),
+		Age = Age +1
+		WHERE Id = @minionId";
+
+        public static string GetAllMinionsAndAges =
+            @"SELECT
+                Name, Age
+            FROM Minions";
+
+        public static string IncreaseAgeWithUsp =
+            @"EXEC usp_GetOlder @minionId";
+
+        public static string GetMinionById =
+            @"SELECT 
+                Name,
+                Age
+            FROM Minions
+            WHERE Id = @minionId";
 
     }
 }

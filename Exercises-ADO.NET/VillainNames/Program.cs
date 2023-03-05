@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace VillainNames
@@ -19,7 +20,9 @@ namespace VillainNames
                 //await AddMinion(con);
                 //await ChangeTownNamesCasing(con); 
                 //await RemoveVillain(con);
-                await PrintAllMinionNames(con);
+                //await PrintAllMinionNames(con);
+                //await IncreaseMinionAge(con);
+                await IncreaseAgeWithUsp(con);
 
                 
 
@@ -239,7 +242,7 @@ namespace VillainNames
 
         }
 
-        //TODO
+        
         public async static Task PrintAllMinionNames(SqlConnection con)
         {
             List<string> minionNames = new List<string>();
@@ -254,7 +257,75 @@ namespace VillainNames
             }
             await reader.CloseAsync();
 
-            Console.WriteLine(String.Join(Environment.NewLine,minionNames));
+            while(minionNames.Count > 0)
+            {
+                string first = minionNames[0];
+                minionNames.RemoveAt(0);
+                Console.WriteLine(first);
+
+                if(minionNames.Count == 0)
+                {
+                    break;
+                }
+
+                string last = minionNames[minionNames.Count - 1];
+                minionNames.RemoveAt(minionNames.Count - 1);
+                Console.WriteLine(last);
+            }
+        }
+
+        public async static Task IncreaseMinionAge(SqlConnection con)
+        {
+            int[] minionIds = Console.ReadLine()
+                .Split(" ",StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+
+            foreach(int id in minionIds)
+            {
+                SqlCommand UpdateMinions = new SqlCommand(SQLQueries.IncreaseAgeAndLowerCaseName, con);
+                UpdateMinions.Parameters.AddWithValue("@minionId", id);
+                await UpdateMinions.ExecuteNonQueryAsync();
+                await UpdateMinions.DisposeAsync();
+            }
+            
+            
+            
+            
+            SqlCommand ReadAllMinions = new SqlCommand(SQLQueries.GetAllMinionsAndAges,con);
+            SqlDataReader reader = await ReadAllMinions.ExecuteReaderAsync();
+
+            while(reader.Read())
+            {
+                string name = (string)reader["Name"];
+                int age = (int)reader["Age"];
+
+                Console.WriteLine($"{name} {age}");
+            }
+            await reader.CloseAsync();
+        }
+
+        public async static Task IncreaseAgeWithUsp(SqlConnection con)
+        {
+            int id = int.Parse(Console.ReadLine());
+            SqlCommand increaseAge = new SqlCommand(SQLQueries.IncreaseAgeWithUsp, con);
+            
+            increaseAge.Parameters.AddWithValue("@minionId",id);
+
+            await increaseAge.ExecuteNonQueryAsync();
+            await increaseAge.DisposeAsync();
+
+            SqlCommand getMinonById = new SqlCommand(SQLQueries.GetMinionById,con);
+            getMinonById.Parameters.AddWithValue("@minionId", id);
+            SqlDataReader reader = await getMinonById.ExecuteReaderAsync();
+            while(reader.Read())
+            {
+                string name = (string)reader["Name"];
+                int age = (int)reader["Age"];
+                Console.WriteLine($"{name} - {age} years old");
+            }
+            await reader.CloseAsync();
+            await getMinonById.DisposeAsync();
         }
     }
 }
