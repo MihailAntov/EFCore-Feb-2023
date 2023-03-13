@@ -1,4 +1,4 @@
-﻿namespace FastFood.Core.ViewModels.Categories
+﻿namespace FastFood.Services.Web.ViewModels.Categories
 {
     public class CreateCategoryInputModel
     {

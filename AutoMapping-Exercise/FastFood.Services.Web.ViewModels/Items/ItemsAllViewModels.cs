@@ -1,6 +1,6 @@
-﻿namespace FastFood.Core.ViewModels.Items
+﻿namespace FastFood.Services.Web.ViewModels.Items
 {
-    public class ItemsAllViewModels
+    public class ItemsAllViewModel
     {
         public string Name { get; set; }
 

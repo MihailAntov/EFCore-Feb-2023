@@ -5,34 +5,50 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Data;
+    using FastFood.Services.Data;
     using Microsoft.AspNetCore.Mvc;
-    using ViewModels.Items;
+    using Services.Web.ViewModels.Items;
 
     public class ItemsController : Controller
     {
         private readonly FastFoodContext _context;
         private readonly IMapper _mapper;
+        private readonly IItemService _itemService;
 
-        public ItemsController(FastFoodContext context, IMapper mapper)
+        public ItemsController(FastFoodContext context, IMapper mapper, IItemService itemService)
         {
             _context = context;
             _mapper = mapper;
+            _itemService = itemService;
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            throw new NotImplementedException();
+            IEnumerable<CreateItemViewModel> availableCategories = 
+                await _itemService.GetAllAvailableCategories();
+
+            return View(availableCategories);
         }
 
         [HttpPost]
-        public IActionResult Create(CreateItemInputModel model)
+        public async Task<IActionResult> Create(CreateItemInputModel model)
         {
-            throw new NotImplementedException();
+            if (!this.ModelState.IsValid)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            await this._itemService.CreateAsync(model);
+
+            return this.RedirectToAction("All");
         }
 
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            throw new NotImplementedException();
+            IEnumerable<ItemsAllViewModel> items =
+                await _itemService.GetAllAsync();
+
+            return this.View(items.ToList());
         }
     }
 }

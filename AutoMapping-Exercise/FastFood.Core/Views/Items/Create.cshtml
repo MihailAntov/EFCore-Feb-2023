@@ -1,4 +1,4 @@
-﻿@model IList<FastFood.Core.ViewModels.Items.CreateItemViewModel>
+﻿@model IList<FastFood.Services.Web.ViewModels.Items.CreateItemViewModel>
 
 @{
     ViewData["Title"] = "Create Item";
@@ -19,7 +19,7 @@
         <select id="category" class="form-control" name="CategoryId">
             @foreach (var item in Model)
             {
-                    <option value="@item.CategoryId">@item.CategoryId</option>
+                    <option value="@item.CategoryId">@item.CategoryName</option>
             }
         </select>
     </div>

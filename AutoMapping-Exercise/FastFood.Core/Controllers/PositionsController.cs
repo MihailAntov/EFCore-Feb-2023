@@ -6,7 +6,7 @@
     using Data;
     using FastFood.Models;
     using Microsoft.AspNetCore.Mvc;
-    using ViewModels.Positions;
+    using Services.Web.ViewModels.Positions;
 
     public class PositionsController : Controller
     {
