@@ -157,8 +157,10 @@ namespace ProductShop
                 {
                     category = c.Name,
                     productsCount = c.CategoriesProducts.Count(),
-                    averagePrice = decimal.Round(c.CategoriesProducts.Average(cp => cp.Product.Price),2),
-                    totalRevenue = decimal.Round(c.CategoriesProducts.Sum(cp => cp.Product.Price),2)
+                    //averagePrice = decimal.Round(c.CategoriesProducts.Average(cp => cp.Product.Price),2),
+                    //totalRevenue = decimal.Round(c.CategoriesProducts.Sum(cp => cp.Product.Price),2)
+                    averagePrice = c.CategoriesProducts.Any() ? $"{c.CategoriesProducts.Average(p => p.Product.Price):f2}" : "0.00",
+                    totalRevenue = c.CategoriesProducts.Any() ? $"{c.CategoriesProducts.Sum(p=>p.Product.Price):f2}" : "0.00"
                 });
 
             return JsonConvert.SerializeObject(categories,Formatting.Indented);
