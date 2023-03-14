@@ -259,7 +259,7 @@ namespace CarDealer
                 .ThenInclude(s => s.Car)
                 .ThenInclude(c => c.PartsCars)
                 .ThenInclude(pc => pc.Part)
-                .Where(c => c.Sales.Count() > 0)
+                .Where(c => c.Sales.Where(s=>s.Car != null).Count() > 0)
                 .ToArray()
                 .Select(c => new ExportTotalSalesDto()
                 {
