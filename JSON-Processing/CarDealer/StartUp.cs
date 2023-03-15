@@ -52,10 +52,10 @@ namespace CarDealer
                 //Console.WriteLine(GetLocalSuppliers(context));
 
                 //problem 17
-                Console.WriteLine(GetCarsWithTheirListOfParts(context));
+                //Console.WriteLine(GetCarsWithTheirListOfParts(context));
 
                 //problem 18
-                //Console.WriteLine(GetTotalSalesByCustomer(context));
+                Console.WriteLine(GetTotalSalesByCustomer(context));
 
                 //problem 19
                 //Console.WriteLine(GetSalesWithAppliedDiscount(context));
@@ -255,24 +255,18 @@ namespace CarDealer
         public static string GetTotalSalesByCustomer(CarDealerContext context)
         {
             var customers = context.Customers
-                .Include(c => c.Sales)
-                .ThenInclude(s => s.Car)
-                .ThenInclude(c => c.PartsCars)
-                .ThenInclude(pc => pc.Part)
-                .Where(c => c.Sales.Where(s=>s.Car != null).Count() > 0)
-                .ToArray()
-                .Select(c => new ExportTotalSalesDto()
+                .Where(c => c.Sales.Count() > 0)
+                .Select(c => new
                 {
-                    FullName = c.Name,
-                    BoughtCars = c.Sales.Count(),
-                    SpentMoney = decimal.Round(c.Sales.Sum(s => s.Car.PartsCars.Sum(ps => ps.Part.Price)), 2)
-
+                    fullName = c.Name,
+                    boughtCars = c.Sales.Count(),
+                    spentMoney = c.Sales.Sum(s => s.Car.PartsCars.Sum(pc => pc.Part.Price))
                 })
-                .OrderByDescending(c => c.SpentMoney)
-                .ThenByDescending(c => c.BoughtCars);
-                
+                .OrderByDescending(c => c.spentMoney)
+                .ThenBy(c => c.boughtCars);
 
-            return JsonConvert.SerializeObject(customers, Formatting.Indented);
+
+            return JsonConvert.SerializeObject(customers,Formatting.Indented);
 
 
         }
