@@ -40,9 +40,9 @@ namespace CarDealer
 
                 //Console.WriteLine(GetCarsWithTheirListOfParts(context));
 
-                //Console.WriteLine(GetTotalSalesByCustomer(context));
+                Console.WriteLine(GetTotalSalesByCustomer(context));
 
-                Console.WriteLine(GetSalesWithAppliedDiscount(context));
+                //Console.WriteLine(GetSalesWithAppliedDiscount(context));
 
             }
         }
@@ -311,8 +311,8 @@ namespace CarDealer
                     SalesAmounts = c.Sales.Select(s => new
                     {
                         Prices = c.IsYoungDriver
-                        ? s.Car.PartsCars.Sum(pc => pc.Part.Price * 0.95M)
-                        : s.Car.PartsCars.Sum(pc => pc.Part.Price)
+                        ? s.Car.PartsCars.Sum(pc => Math.Round((double)pc.Part.Price * 0.95,2))
+                        : s.Car.PartsCars.Sum(pc => (double)pc.Part.Price)
                     })
                 }).ToArray();
 
@@ -322,7 +322,7 @@ namespace CarDealer
                 {
                     Name = c.Name,
                     BoughtCars = c.BoughtCars,
-                    SpentMoney = Math.Round(c.SalesAmounts.Sum(sa => sa.Prices), 2).ToString("f2")
+                    SpentMoney = c.SalesAmounts.Sum(sa => sa.Prices).ToString("f2")
                 }).ToArray();
                 
 

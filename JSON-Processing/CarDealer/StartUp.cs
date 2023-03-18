@@ -254,19 +254,39 @@ namespace CarDealer
 
         public static string GetTotalSalesByCustomer(CarDealerContext context)
         {
+            //var customers = context.Customers
+            //    .Where(c => c.Sales.Count() > 0)
+            //    .Select(c => new ExportTotalSalesDto()
+            //    {
+            //        FullName = c.Name,
+            //        BoughtCars = c.Sales.Count(),
+            //        SpentMoney = Math.Round(c.Sales.Sum(s => s.Car.PartsCars.Sum(pc => pc.Part.Price)),2)
+            //    })
+            //    .OrderByDescending(c => c.SpentMoney)
+            //    .ThenBy(c => c.BoughtCars);
+
+
+            //return JsonConvert.SerializeObject(customers,Formatting.Indented);
+
             var customers = context.Customers
-                .Where(c => c.Sales.Count() > 0)
-                .Select(c => new
+                .Include(c => c.Sales)
+                .ThenInclude(s => s.Car)
+                .ThenInclude(c => c.PartsCars)
+                .ThenInclude(pc => pc.Part)
+                .Where(c => c.Sales.Any())
+                //.ToArray()
+                .Select(c => new ExportTotalSalesDto()
                 {
-                    fullName = c.Name,
-                    boughtCars = c.Sales.Count(),
-                    spentMoney = c.Sales.Sum(s => s.Car.PartsCars.Sum(pc => pc.Part.Price))
+                    FullName = c.Name,
+                    BoughtCars = c.Sales.Count(),
+                    SpentMoney = c.Sales.Sum(s => s.Car.PartsCars.Sum(ps => ps.Part.Price))
+
                 })
-                .OrderByDescending(c => c.spentMoney)
-                .ThenBy(c => c.boughtCars);
+                .OrderByDescending(c => c.SpentMoney)
+                .ThenByDescending(c => c.BoughtCars)
+                .ToList();
 
-
-            return JsonConvert.SerializeObject(customers,Formatting.Indented);
+            return JsonConvert.SerializeObject(customers, Formatting.Indented);
 
 
         }
