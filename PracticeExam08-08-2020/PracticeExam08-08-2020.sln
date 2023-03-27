@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaporStore", "VaporStore\VaporStore.csproj", "{9905F0D3-3438-4E8B-A42B-0A228849F90A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VaporStore.Tests", "VaporStore.Tests\VaporStore.Tests.csproj", "{31C018DF-8B6E-4C6C-8B4C-65FB9E44B4A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9905F0D3-3438-4E8B-A42B-0A228849F90A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9905F0D3-3438-4E8B-A42B-0A228849F90A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9905F0D3-3438-4E8B-A42B-0A228849F90A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9905F0D3-3438-4E8B-A42B-0A228849F90A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31C018DF-8B6E-4C6C-8B4C-65FB9E44B4A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31C018DF-8B6E-4C6C-8B4C-65FB9E44B4A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31C018DF-8B6E-4C6C-8B4C-65FB9E44B4A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31C018DF-8B6E-4C6C-8B4C-65FB9E44B4A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4F9C491-310E-4B6A-AE25-9C10090054D9}
+	EndGlobalSection
+EndGlobal
